@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from .constants import OBJECT_NAME_MAX_LENGTH
+
 User = get_user_model()
 
 
@@ -35,7 +37,7 @@ class Category(PublishedCreated):
         verbose_name_plural = 'Категории'
 
     def __str__(self):
-        return self.title[:30]
+        return self.title[:OBJECT_NAME_MAX_LENGTH]
 
 
 class Location(PublishedCreated):
@@ -48,7 +50,7 @@ class Location(PublishedCreated):
         verbose_name_plural = 'Местоположения'
 
     def __str__(self):
-        return self.name[:30]
+        return self.name[:OBJECT_NAME_MAX_LENGTH]
 
 
 class Post(PublishedCreated):
@@ -64,8 +66,8 @@ class Post(PublishedCreated):
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        verbose_name='Автор публикации',
-        related_name='posts'
+        verbose_name='Автор публикации'
+        # related_name убран, так как задан default_related_name
     )
     location = models.ForeignKey(
         Location,
@@ -88,4 +90,4 @@ class Post(PublishedCreated):
         default_related_name = 'posts'
 
     def __str__(self):
-        return self.title[:30]
+        return self.title[:OBJECT_NAME_MAX_LENGTH]
